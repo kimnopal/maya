@@ -1,0 +1,282 @@
+{
+  "openapi": "3.0.0",
+  "info":{
+    "title": "MAYA API",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Naufal Hakim",
+      "email": "naufalhakim366@gmail.com",
+      "url": "https://instagram.com/falll.hkm"
+    }
+  },
+  "servers": [
+    {
+        "url": "http://localhost:8000"
+    }
+  ],
+  "paths": {
+    "/api/users": {
+      "post": {
+        "summary": "Register new user",
+        "tags": [ "User API" ],
+        "description": "Register new user",
+        "requestBody":{
+            "content": {
+                "application/json":{
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "username": {
+                                "type": "string"
+                            },
+                            "email":{
+                                "type": "string"
+                            },
+                            "password":{
+                                "type": "string"
+                            },
+                            "major_id": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "username",
+                            "email",
+                            "password",
+                            "major_id"
+                        ]
+                    },
+                    "examples": {
+                        "naufal": {
+                            "description": "Register new user Naufal",
+                            "value": {   
+                                "name": "Naufal Hakim",
+                                "username": "naufal",
+                                "email": "naufal@gmail.com",
+                                "password": "rahasia",
+                                "major_id": 1
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+          "200": {
+            "description": "Success register user",
+            "content": {
+                "application/json": {
+                    "schema":{
+                        "type": "object",
+                        "properties": {
+                            "status":{
+                                "type": "number"
+                            },
+                            "message":{
+                                "type": "string"
+                            },
+                            "data": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "number"
+                                    },
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "email":{
+                                        "type": "string"
+                                    },
+                                    "major": {
+                                        "type": "string"
+                                    },
+                                    "faculty": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "errors":{
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "examples": {
+                        "naufal": {
+                            "description": "Success register user Naufal",
+                            "value": {
+                                "status": 201,
+                                "message": "Created",
+                                "data": {
+                                    "id": 1,
+                                    "username": "naufal",
+                                    "email": "naufal@gmail.com",
+                                    "major": "Teknik Elektro",
+                                    "faculty": "Teknik"
+                                },
+                                "errors": {}
+                            }
+                        }
+                    }
+                }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+                "application/json":{
+                    "examples": {
+                        "naufal": {
+                            "description": "Validation error user Naufal",
+                            "value": {
+                                "status": 400,
+                                "message": "Bad Request",
+                                "data":{},
+                                "errors": {
+                                    "name": [
+                                        "name must not be empty"
+                                    ],
+                                    "username": [
+                                        "username must not be empty",
+                                        "username min 6 characters"
+                                    ],
+                                    "major_id": [
+                                        "major does not match the faculty"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+          },
+          "500": {
+            "description": "Internal servers error",
+            "content": {
+                "application/json": {
+                    "examples": {
+                        "internalServerError": {
+                            "value": {
+                                "status": 500,
+                                "message": "Internal Server Error",
+                                "data":{},
+                                "errors": {
+                                    "server": [
+                                        "Internal Server Error"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/login":{
+        "post":{
+            "summary": "Login user",
+            "tags": ["User API"],
+            "description": "Login user",
+            "requestBody":{
+                "content": {
+                    "application/json": {
+                        "schema":{
+                            "type": "object",
+                            "properties": {
+                                "username":{
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "username",
+                                "password"
+                            ]
+                        },
+                        "examples": {
+                            "naufal":{
+                                "description": "Login user naufal",
+                                "value": {
+                                    "username": "naufal",
+                                    "password": "rahasia"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200":{
+                    "description": "Success login user",
+                    "content": {
+                        "application/json": {
+                            "examples": {
+                                "naufal":{
+                                    "description": "Success login user naufal",
+                                    "value": {
+                                        "username": "naufal",
+                                        "token": "123456789"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Validation error",
+                    "content": {
+                        "application/json":{
+                            "examples": {
+                                "naufal": {
+                                    "description": "Validation error user Naufal",
+                                    "value": {
+                                        "status": 400,
+                                        "message": "Bad Request",
+                                        "data":{},
+                                        "errors": {
+                                            "username": [
+                                                "username must not be empty"
+                                            ],
+                                            "password": [
+                                                "password must not be empty"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                  },
+                  "500": {
+                    "description": "Internal servers error",
+                    "content": {
+                        "application/json": {
+                            "examples": {
+                                "internalServerError": {
+                                    "value": {
+                                        "status": 500,
+                                        "message": "Internal Server Error",
+                                        "data":{},
+                                        "errors": {
+                                            "server": [
+                                                "Internal Server Error"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                  }
+            }
+        }
+    }
+  }
+}
