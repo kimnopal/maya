@@ -7,6 +7,7 @@ type Major struct {
 	UpdatedAt uint64  `gorm:"column:updated_at;autoCreateTime:milli;autoUpdateTime:milli"`
 	FacultyID uint64  `gorm:"column:faculty_id"`
 	Faculty   Faculty `gorm:"foreignKey:faculty_id;references:id"`
+	Users     []User  `gorm:"foreignKey:user_id;references:id"`
 }
 
 func (m *Major) TableName() string {
