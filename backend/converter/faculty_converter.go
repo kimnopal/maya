@@ -38,5 +38,6 @@ func FacultyListEntityToResponse(entities *[]*entity.Faculty) []*model.FacultyRe
 		}
 		responses = append(responses, response)
 	}
+
 	return responses
 }
