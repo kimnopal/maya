@@ -21,12 +21,12 @@ func MajorCreateRequestToEntity(createRequest *model.MajorCreateRequest) *entity
 	}
 }
 
-func MajorUpdateRequestToEntity(updateRequest *model.FacultyUpdateRequest) *entity.Major {
-	return &entity.Major{
-		ID:        updateRequest.ID,
-		Name:      updateRequest.Name,
-		FacultyID: updateRequest.ID,
-	}
+func MajorUpdateRequestToEntity(major *entity.Major, updateRequest *model.MajorUpdateRequest) *entity.Major {
+	major.ID = updateRequest.ID
+	major.Name = updateRequest.Name
+	major.FacultyID = updateRequest.FacultyID
+
+	return major
 }
 
 func MajorListEntityToResponse(entities *[]*entity.Major) []*model.MajorResponse {

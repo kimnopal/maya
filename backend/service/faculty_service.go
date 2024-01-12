@@ -60,7 +60,7 @@ func (s *FacultyService) Update(ctx context.Context, request *model.FacultyUpdat
 		return nil, fiber.ErrNotFound
 	}
 
-	faculty = converter.FacultyUpdateRequestToEntity(request)
+	faculty = converter.FacultyUpdateRequestToEntity(faculty, request)
 
 	if err := s.FacultyRepository.Update(tx, faculty); err != nil {
 		return nil, fiber.ErrInternalServerError

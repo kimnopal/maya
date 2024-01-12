@@ -20,11 +20,11 @@ func FacultyCreateRequestToEntity(createRequest *model.FacultyCreateRequest) *en
 	}
 }
 
-func FacultyUpdateRequestToEntity(updateRequest *model.FacultyUpdateRequest) *entity.Faculty {
-	return &entity.Faculty{
-		ID:   updateRequest.ID,
-		Name: updateRequest.Name,
-	}
+func FacultyUpdateRequestToEntity(faculty *entity.Faculty, updateRequest *model.FacultyUpdateRequest) *entity.Faculty {
+	faculty.ID = updateRequest.ID
+	faculty.Name = updateRequest.Name
+
+	return faculty
 }
 
 func FacultyListEntityToResponse(entities *[]*entity.Faculty) []*model.FacultyResponse {

@@ -115,9 +115,14 @@ func (c *MajorService) Update(ctx context.Context, request *model.MajorUpdateReq
 		return nil, fiber.ErrNotFound
 	}
 
+	major = converter.MajorUpdateRequestToEntity(major, request)
+	if err := c.MajorRepository.Update(tx, major); err != nil {
+		return nil, fiber.ErrInternalServerError
+	}
+
 	if err := tx.Commit().Error; err != nil {
 		return nil, fiber.ErrInternalServerError
 	}
 
-	return nil, nil
+	return converter.MajorEntityToResponse(major), nil
 }
