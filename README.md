@@ -6,6 +6,6 @@ Finding the right team members for projects or competitions is a common challeng
 
 ## Screenshot
 
-<img src="https://github.com/kimnopal/maya/assets/88240429/3ef6800d-03af-49b9-8925-1667a625de0f" alt="Screenshot 1" width="500"><br><br>
+<img src="https://github.com/kimnopal/maya/assets/88240429/3ef6800d-03af-49b9-8925-1667a625de0f" alt="Screenshot 1" width="300"><br><br>
 
 <img src="https://github.com/kimnopal/maya/assets/88240429/dd88e6ae-0bff-472a-a103-9db244effd29" alt="Screenshot 2" width="500"><br><br>
