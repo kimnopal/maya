@@ -34,7 +34,7 @@ func FacultyListEntityToResponse(entities *[]*entity.Faculty) []*model.FacultyRe
 			ID:        entity.ID,
 			Name:      entity.Name,
 			CreatedAt: entity.CreatedAt,
-			UpdatedAt: entity.CreatedAt,
+			UpdatedAt: entity.UpdatedAt,
 		}
 		responses = append(responses, response)
 	}

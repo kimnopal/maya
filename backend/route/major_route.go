@@ -9,4 +9,6 @@ func SetupMajorRoute(app fiber.Router, majorController *controller.MajorControll
 	app.Post("/majors", majorController.Create)
 	app.Get("/majors/:id", majorController.Get)
 	app.Delete("/majors/:id", majorController.Delete)
+	app.Put("/majors/:id", majorController.Update)
+	app.Get("/majors", majorController.GetAll)
 }

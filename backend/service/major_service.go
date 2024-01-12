@@ -126,3 +126,19 @@ func (c *MajorService) Update(ctx context.Context, request *model.MajorUpdateReq
 
 	return converter.MajorEntityToResponse(major), nil
 }
+
+func (s *MajorService) GetAll(ctx context.Context) ([]*model.MajorResponse, error) {
+	tx := s.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	majors := new([]*entity.Major)
+	if err := s.MajorRepository.FindAll(tx, majors); err != nil {
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.MajorListEntityToResponse(majors), nil
+}

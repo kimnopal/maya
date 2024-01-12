@@ -64,3 +64,32 @@ func (c *MajorController) Delete(ctx *fiber.Ctx) error {
 
 	return ctx.Status(fiber.StatusOK).JSON(converter.ToWebResponse(fiber.StatusOK, "OK", nil))
 }
+
+func (c *MajorController) Update(ctx *fiber.Ctx) error {
+	request := new(model.MajorUpdateRequest)
+	if err := ctx.BodyParser(request); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(converter.ToWebResponse(fiber.StatusBadRequest, fiber.ErrBadGateway.Message, nil))
+	}
+
+	id, err := ctx.ParamsInt("id")
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(converter.ToWebResponse(fiber.StatusBadRequest, fiber.ErrBadGateway.Message, nil))
+	}
+	request.ID = uint64(id)
+
+	majorResponse, err := c.MajorService.Update(ctx.UserContext(), request)
+	if err != nil {
+		return ctx.Status(err.(*fiber.Error).Code).JSON(converter.ToWebResponse(err.(*fiber.Error).Code, err.(*fiber.Error).Message, nil))
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(converter.ToWebResponse(fiber.StatusOK, "OK", majorResponse))
+}
+
+func (c *MajorController) GetAll(ctx *fiber.Ctx) error {
+	majorResponses, err := c.MajorService.GetAll(ctx.UserContext())
+	if err != nil {
+		return ctx.Status(err.(*fiber.Error).Code).JSON(converter.ToWebResponse(err.(*fiber.Error).Code, err.(*fiber.Error).Message, nil))
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(converter.ToWebResponse(fiber.StatusOK, "OK", majorResponses))
+}

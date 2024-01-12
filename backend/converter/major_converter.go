@@ -10,7 +10,7 @@ func MajorEntityToResponse(entity *entity.Major) *model.MajorResponse {
 		ID:        entity.ID,
 		Name:      entity.Name,
 		CreatedAt: entity.CreatedAt,
-		UpdatedAt: entity.CreatedAt,
+		UpdatedAt: entity.UpdatedAt,
 	}
 }
 
@@ -37,7 +37,7 @@ func MajorListEntityToResponse(entities *[]*entity.Major) []*model.MajorResponse
 			ID:        entity.ID,
 			Name:      entity.Name,
 			CreatedAt: entity.CreatedAt,
-			UpdatedAt: entity.CreatedAt,
+			UpdatedAt: entity.UpdatedAt,
 		}
 		responses = append(responses, response)
 	}
