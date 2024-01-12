@@ -20,9 +20,9 @@ type MajorUpdateRequest struct {
 }
 
 type MajorDeleteRequest struct {
-	ID uint64 `json:"id"`
+	ID uint64 `json:"id" validate:"required"`
 }
 
 type MajorGetRequest struct {
-	ID uint64 `json:"id"`
+	ID uint64 `json:"id" validate:"required"`
 }

@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -34,13 +33,11 @@ func (s *MajorService) Create(ctx context.Context, request *model.MajorCreateReq
 	defer tx.Rollback()
 
 	if err := s.Validate.Struct(request); err != nil {
-		fmt.Println("validation error")
 		return nil, fiber.ErrBadRequest
 	}
 
 	faculty := new(entity.Faculty)
 	if err := s.FacultyRepository.FindById(tx, faculty, request.FacultyID); err != nil {
-		fmt.Println("faculty not found")
 		return nil, fiber.ErrNotFound
 	}
 
@@ -74,4 +71,53 @@ func (s *MajorService) Get(ctx context.Context, request *model.MajorGetRequest) 
 	}
 
 	return converter.MajorEntityToResponse(major), nil
+}
+
+func (s *MajorService) Delete(ctx context.Context, request *model.MajorDeleteRequest) error {
+	tx := s.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := s.Validate.Struct(request); err != nil {
+		return fiber.ErrBadRequest
+	}
+
+	major := new(entity.Major)
+	if err := s.MajorRepository.FindById(tx, major, request.ID); err != nil {
+		return fiber.ErrNotFound
+	}
+
+	if err := s.MajorRepository.Delete(tx, major); err != nil {
+		return fiber.ErrInternalServerError
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		return fiber.ErrInternalServerError
+	}
+
+	return nil
+}
+
+func (c *MajorService) Update(ctx context.Context, request *model.MajorUpdateRequest) (*model.MajorResponse, error) {
+	tx := c.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := c.Validate.Struct(request); err != nil {
+		return nil, fiber.ErrBadRequest
+	}
+
+	faculty := new(entity.Faculty)
+	if err := c.FacultyRepository.FindById(tx, faculty, request.FacultyID); err != nil {
+		return nil, fiber.ErrNotFound
+	}
+
+	major := new(entity.Major)
+	if err := c.MajorRepository.FindById(tx, major, request.ID); err != nil {
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return nil, nil
 }

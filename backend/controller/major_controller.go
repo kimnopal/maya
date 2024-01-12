@@ -49,3 +49,18 @@ func (c *MajorController) Get(ctx *fiber.Ctx) error {
 
 	return ctx.Status(fiber.StatusOK).JSON(converter.ToWebResponse(fiber.StatusOK, "OK", majorResponse))
 }
+
+func (c *MajorController) Delete(ctx *fiber.Ctx) error {
+	request := new(model.MajorDeleteRequest)
+	id, err := ctx.ParamsInt("id")
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(converter.ToWebResponse(fiber.StatusBadRequest, fiber.ErrBadRequest.Message, nil))
+	}
+	request.ID = uint64(id)
+
+	if err := c.MajorService.Delete(ctx.UserContext(), request); err != nil {
+		return ctx.Status(err.(*fiber.Error).Code).JSON(converter.ToWebResponse(err.(*fiber.Error).Code, err.(*fiber.Error).Message, nil))
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(converter.ToWebResponse(fiber.StatusOK, "OK", nil))
+}

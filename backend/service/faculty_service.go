@@ -77,6 +77,10 @@ func (s *FacultyService) Delete(ctx context.Context, request *model.FacultyDelet
 	tx := s.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 
+	if err := s.Validate.Struct(request); err != nil {
+		return fiber.ErrBadRequest
+	}
+
 	faculty := new(entity.Faculty)
 	if err := s.FacultyRepository.FindById(tx, faculty, request.ID); err != nil {
 		return fiber.ErrNotFound

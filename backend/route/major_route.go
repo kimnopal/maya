@@ -8,4 +8,5 @@ import (
 func SetupMajorRoute(app fiber.Router, majorController *controller.MajorController) {
 	app.Post("/majors", majorController.Create)
 	app.Get("/majors/:id", majorController.Get)
+	app.Delete("/majors/:id", majorController.Delete)
 }
