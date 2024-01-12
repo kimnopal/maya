@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/kimnopal/maya/converter"
 	"github.com/kimnopal/maya/model"
@@ -11,9 +13,16 @@ type MajorController struct {
 	MajorService *service.MajorService
 }
 
+func NewMajorController(MajorService *service.MajorService) *MajorController {
+	return &MajorController{
+		MajorService: MajorService,
+	}
+}
+
 func (c *MajorController) Create(ctx *fiber.Ctx) error {
 	request := new(model.MajorCreateRequest)
 	if err := ctx.BodyParser(request); err != nil {
+		fmt.Println("parsing error")
 		return ctx.Status(fiber.StatusBadRequest).JSON(converter.ToWebResponse(fiber.StatusBadRequest, fiber.ErrBadRequest.Message, nil))
 	}
 

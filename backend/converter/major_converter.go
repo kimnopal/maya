@@ -11,25 +11,27 @@ func MajorEntityToResponse(entity *entity.Major) *model.MajorResponse {
 		Name:      entity.Name,
 		CreatedAt: entity.CreatedAt,
 		UpdatedAt: entity.CreatedAt,
-		Faculty:   entity.Faculty,
 	}
 }
 
 func MajorCreateRequestToEntity(createRequest *model.MajorCreateRequest) *entity.Major {
 	return &entity.Major{
-		Name: createRequest.Name,
+		Name:      createRequest.Name,
+		FacultyID: createRequest.FacultyID,
 	}
 }
 
 func MajorUpdateRequestToEntity(updateRequest *model.FacultyUpdateRequest) *entity.Major {
 	return &entity.Major{
-		ID:   updateRequest.ID,
-		Name: updateRequest.Name,
+		ID:        updateRequest.ID,
+		Name:      updateRequest.Name,
+		FacultyID: updateRequest.ID,
 	}
 }
 
 func MajorListEntityToResponse(entities *[]*entity.Major) []*model.MajorResponse {
 	var responses []*model.MajorResponse
+
 	for _, entity := range *entities {
 		response := &model.MajorResponse{
 			ID:        entity.ID,
