@@ -55,3 +55,23 @@ func (s *MajorService) Create(ctx context.Context, request *model.MajorCreateReq
 
 	return converter.MajorEntityToResponse(major), nil
 }
+
+func (s *MajorService) Get(ctx context.Context, request *model.MajorGetRequest) (*model.MajorResponse, error) {
+	tx := s.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := s.Validate.Struct(request); err != nil {
+		return nil, fiber.ErrBadRequest
+	}
+
+	major := new(entity.Major)
+	if err := s.MajorRepository.FindById(tx, major, request.ID); err != nil {
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.MajorEntityToResponse(major), nil
+}
