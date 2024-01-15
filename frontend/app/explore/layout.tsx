@@ -21,19 +21,15 @@ export default function ExploreLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body
-        className={`${poppins.className} min-h-screen relative max-w-screen-md mx-auto`}
-      >
-        <div className="flex flex-col gap-6 px-6 pt-6 py-24">
-          <div className="flex flex-row flex-1 items-stretch gap-2">
-            <BackButton />
-            <SearchBar />
-          </div>
-          {children}
+    <>
+      <div className="flex flex-col gap-6 px-6 pt-6 py-24">
+        <div className="flex flex-row flex-1 items-stretch gap-2">
+          <BackButton />
+          <SearchBar />
         </div>
-        <Navbar />
-      </body>
-    </html>
+        {children}
+      </div>
+      <Navbar />
+    </>
   );
 }
