@@ -13,6 +13,6 @@ func NewUserRepository() *UserRepository {
 	return &UserRepository{}
 }
 
-func (r *UserRepository) FindByUsername(DB *gorm.DB, user *entity.User) error {
-	return DB.Where("username = ?", user.Username).Take(user).Error
+func (r *UserRepository) FindByUsername(DB *gorm.DB, user *entity.User, username string) error {
+	return DB.Where("username = ?", username).Take(user).Error
 }

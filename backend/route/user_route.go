@@ -7,4 +7,5 @@ import (
 
 func SetupUserRoute(app fiber.Router, userController *controller.UserController) {
 	app.Get("/users/register", userController.Register)
+	app.Post("/users/login", userController.Login)
 }
