@@ -17,3 +17,9 @@ func RoleCreateRequestToEntity(createRequest *model.RoleCreateRequest) *entity.R
 		Name: createRequest.Name,
 	}
 }
+
+func RoleUpdateRequestToEntity(role *entity.Role, updateRequest *model.RoleUpdateRequest) *entity.Role {
+	role.Name = updateRequest.Name
+
+	return role
+}
