@@ -19,18 +19,22 @@ type BootstrapConfig struct {
 func Bootstrap(config *BootstrapConfig) {
 	facultyRepository := repository.NewFacultyRepository()
 	majorRepository := repository.NewMajorRepository()
+	roleRepository := repository.NewRoleRepository()
 	userRepository := repository.NewUserRepository()
 
 	facultyService := service.NewFacultyService(config.DB, config.Validate, facultyRepository)
 	majorService := service.NewMajorService(config.DB, config.Validate, facultyRepository, majorRepository)
+	roleService := service.NewRoleService(config.DB, config.Validate, roleRepository)
 	userService := service.NewUserService(config.DB, config.Validate, userRepository)
 
 	facultyController := controller.NewFacultyController(facultyService)
 	majorController := controller.NewMajorController(majorService)
+	roleController := controller.NewRoleController(roleService)
 	userController := controller.NewUserController(userService)
 
 	api := config.App.Group("/api")
 	route.SetupFacultyRoute(api, facultyController)
 	route.SetupMajorRoute(api, majorController)
+	route.SetupRoleRoute(api, roleController)
 	route.SetupUserRoute(api, userController)
 }

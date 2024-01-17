@@ -44,3 +44,16 @@ func (s *RoleService) Create(ctx context.Context, request *model.RoleCreateReque
 
 	return converter.RoleEntityToResponse(role), nil
 }
+
+func (s *RoleService) Update(ctx context.Context, request *model.RoleUpdateRequest) (*model.RoleResponse, error) {
+	tx := s.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := s.Validate.Struct(request); err != nil {
+		return nil, fiber.ErrBadRequest
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		return nil, fiber.ErrInternalServerError
+	}
+}
