@@ -25,6 +25,7 @@ const SigninForm = async () => {
           userEmail.current = e.target.value;
         }}
         placeholder="youlooknicetoday@example.com"
+        id="email"
       />
       <TextBox
         labelText="Password"
@@ -33,6 +34,7 @@ const SigninForm = async () => {
           pass.current = e.target.value;
         }}
         placeholder="Ssst!"
+        id="password"
       />
       <button
         onClick={onSubmit}
