@@ -10,5 +10,3 @@ type Role struct {
 func (m *Role) TableName() string {
 	return "roles"
 }
-
-// migrate -database "mysql://root@tcp(localhost:3306)/maya" -path db/migrations up

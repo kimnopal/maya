@@ -2,17 +2,18 @@ package controller
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/kimnopal/maya/converter"
 	"github.com/kimnopal/maya/model"
-	"gorm.io/gorm"
+	"github.com/kimnopal/maya/service"
 )
 
 type UserController struct {
-	DB *gorm.DB
+	UserService *service.UserService
 }
 
-func NewUserController(DB *gorm.DB) *UserController {
+func NewUserController(UserService *service.UserService) *UserController {
 	return &UserController{
-		DB: DB,
+		UserService: UserService,
 	}
 }
 
@@ -20,8 +21,21 @@ func (c *UserController) Register(ctx *fiber.Ctx) error {
 	request := new(model.UserRegisterRequest)
 	err := ctx.BodyParser(request)
 	if err != nil {
-		return ctx.JSON(nil)
+		return ctx.Status(fiber.StatusBadRequest).JSON(converter.ToWebResponse(
+			fiber.StatusBadRequest,
+			fiber.ErrBadRequest.Message,
+			nil,
+		))
 	}
 
-	return nil
+	userResponse, err := c.UserService.Create(ctx.UserContext(), request)
+	if err != nil {
+		return ctx.Status(err.(*fiber.Error).Code).JSON(converter.ToWebResponse(
+			err.(*fiber.Error).Code,
+			err.(*fiber.Error).Message,
+			nil,
+		))
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(converter.ToWebResponse(fiber.StatusOK, "OK", userResponse))
 }
