@@ -70,3 +70,23 @@ func (s *RoleService) Update(ctx context.Context, request *model.RoleUpdateReque
 
 	return converter.RoleEntityToResponse(role), nil
 }
+
+func (s *RoleService) Delete(ctx context.Context, request *model.RoleDeleteRequest) error {
+	tx := s.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	role := new(entity.Role)
+	if err := s.RoleRepository.FindById(tx, role, request.ID); err != nil {
+		return fiber.ErrNotFound
+	}
+
+	if err := s.RoleRepository.Delete(tx, role); err != nil {
+		return fiber.ErrInternalServerError
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		return fiber.ErrInternalServerError
+	}
+
+	return nil
+}

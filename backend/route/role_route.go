@@ -7,4 +7,6 @@ import (
 
 func SetupRoleRoute(app fiber.Router, roleController *controller.RoleController) {
 	app.Get("/roles", roleController.Create)
+	app.Put("/roles/:id", roleController.Update)
+	app.Delete("/roles/:id", roleController.Delete)
 }
