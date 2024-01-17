@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import SearchBar from "@/components/SearchBar";
-import Navbar from "@/components/Navbar";
+import AuthProvider from "@/components/auth/AuthProvider";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -21,14 +20,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${poppins.className} min-h-screen`}>
-        <div className="relative max-w-screen-md mx-auto">
-          <div className="flex flex-col gap-6 px-6 pt-6 py-24">
-            <SearchBar />
-            {children}
-          </div>
-          <Navbar />
-        </div>
+      <body className={poppins.className + " relative max-w-screen-md mx-auto"}>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
