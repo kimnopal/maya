@@ -1,23 +1,8 @@
-"use client";
-import TextBox from "@/components/TextBox";
+import SigninForm from "@/components/form/SigninForm";
 import AuthTemplate from "@/components/template/AuthTemplate";
-import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRef } from "react";
 
-const LoginPage = async () => {
-  const userEmail = useRef("");
-  const pass = useRef("");
-
-  const onSubmit = async () => {
-    const result = await signIn("credentials", {
-      email: userEmail.current,
-      password: pass.current,
-      redirect: true,
-      callbackUrl: "/",
-    });
-  };
-
+const LoginPage = () => {
   return (
     <AuthTemplate>
       <div className="flex justify-between items-end pb-6">
@@ -62,28 +47,7 @@ const LoginPage = async () => {
           Help
         </Link>
       </div>
-      <TextBox
-        labelText="Email Address"
-        type="email"
-        onChange={(e) => {
-          userEmail.current = e.target.value;
-        }}
-        placeholder="youlooknicetoday@example.com"
-      />
-      <TextBox
-        labelText="Password"
-        type="password"
-        onChange={(e) => {
-          pass.current = e.target.value;
-        }}
-        placeholder="Ssst!"
-      />
-      <button
-        className="font-bold text-white bg-primary py-3 rounded-xl"
-        onClick={onSubmit}
-      >
-        Sign in
-      </button>
+      <SigninForm />
       <p className="">
         Don't have an account?{" "}
         <Link

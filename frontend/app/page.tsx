@@ -1,7 +1,7 @@
 import ItemList from "@/components/cards/ItemList";
 import HomeTemplate from "@/components/template/HomeTemplate";
 import UserStats from "@/components/cards/UserStats";
-import { posts, user } from "@/lib/DummyData";
+import { posts } from "@/lib/DummyData";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <HomeTemplate>
       <main className="flex flex-col gap-3 text-black">
-        <UserStats user={user} />
+        <UserStats />
 
         <h2 className="font-bold text-xl">Explore</h2>
 

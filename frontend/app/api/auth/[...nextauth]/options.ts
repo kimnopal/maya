@@ -1,5 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
+import { findUser } from "@/app/action/action";
+import { userType } from "@/app/types/type";
 
 export const options = {
   providers: [
@@ -19,17 +21,9 @@ export const options = {
       },
       async authorize(credentials: any, request) {
         // Add logic here to look up the user from the credentials supplied
-        const user = {
-          id: "1",
-          name: "test",
-          email: "testing@example.com",
-          password:
-            "$2a$12$duBa4bHZBQlU1dcZNEUVH.zLUr6HHsLRs3TgdJ/78CJg0heCgqVqm",
-          majors: {
-            name: "Teknik Elektro",
-            faculty: "Teknik",
-          },
-        };
+        const user: any = findUser({
+          email: credentials.email,
+        });
 
         if (user) {
           const match = await bcrypt.compare(
@@ -44,6 +38,7 @@ export const options = {
           return null;
         } else {
           // If you return null then an error will be displayed advising the user to check their details.
+
           return null;
 
           // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
@@ -52,8 +47,8 @@ export const options = {
     }),
   ],
   pages: {
-    signIn: "/profile/signin",
-    signOut: "/profile/signout",
+    signIn: "/signin",
+    signOut: "/signout",
   },
   session: {
     jwt: true,

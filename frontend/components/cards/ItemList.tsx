@@ -1,9 +1,12 @@
-import { postType } from "@/app/type";
+import { findUserById } from "@/app/action/action";
+import { postType } from "@/app/types/type";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const ItemList = ({ item }: { item: postType }) => {
+  const user = findUserById(item.userId);
+
   return (
     <li>
       <Link
@@ -13,7 +16,7 @@ const ItemList = ({ item }: { item: postType }) => {
         <Image
           width={64}
           height={64}
-          src={`${item.user.imageUrl}`}
+          src={`${user?.imageUrl}`}
           alt="name"
           className="rounded-full"
         />
@@ -25,9 +28,9 @@ const ItemList = ({ item }: { item: postType }) => {
             <p>{item.createdAt.toLocaleDateString()}</p>
           </div>
           <div className="flex flex-row flex-1 self-stretch justify-between">
-            <p className="h-4 flex-1 overflow-hidden">{item.user.name}</p>
+            <p className="h-4 flex-1 overflow-hidden">{user?.name}</p>
             <p>
-              • {item.user.major.faculty.name}/{item.user.major.name}
+              • {user?.majors.faculty}/{user?.majors.name}
             </p>
           </div>
           <div className="flex flex-row self-stretch gap-1 text-white text-xs overflow-x-auto">

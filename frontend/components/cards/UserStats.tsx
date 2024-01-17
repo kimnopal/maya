@@ -1,11 +1,12 @@
 "use client";
 
-import { userType } from "@/app/type";
+import { userType } from "@/app/types/type";
 import { useSession } from "next-auth/react";
 import React from "react";
 import SigninButton from "../button/SigninButton";
+import Link from "next/link";
 
-const UserStats = ({ user }: { user: userType }) => {
+const UserStats = () => {
   const { data: session } = useSession();
   return (
     <div className="bg-secondary-foreground text-white flex flex-col gap-2 px-3 pt-6 pb-3 rounded-2xl">
@@ -17,7 +18,7 @@ const UserStats = ({ user }: { user: userType }) => {
             Have you found your Dream Team?
           </p>
           <div className="grid grid-flow-col grid-cols-2 gap-2 px-4 py-2 bg-white rounded-lg">
-            <div className="flex flex-row gap-2">
+            <Link href="/my#post" className="flex flex-row gap-2">
               <svg
                 width="24"
                 height="24"
@@ -34,10 +35,10 @@ const UserStats = ({ user }: { user: userType }) => {
               </svg>
               <div className="text-black text-xs">
                 <h4 className="font-bold">My Post</h4>
-                <p>{String(user.postCount)} Post</p>
+                <p>1 Post</p>
               </div>
-            </div>
-            <div className="flex flex-row gap-2">
+            </Link>
+            <Link href="/my#bookmark" className="flex flex-row gap-2">
               <svg
                 width="24"
                 height="24"
@@ -55,9 +56,9 @@ const UserStats = ({ user }: { user: userType }) => {
 
               <div className="text-black text-xs">
                 <h4 className="font-bold">My Bookmarks</h4>
-                <p>{String(user.bookmarkCount)} Post</p>
+                <p>2 Post</p>
               </div>
-            </div>
+            </Link>
           </div>
         </>
       ) : (
