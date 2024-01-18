@@ -11,6 +11,12 @@ type TagController struct {
 	TagService *service.TagService
 }
 
+func NewTagController(TagService *service.TagService) *TagController {
+	return &TagController{
+		TagService: TagService,
+	}
+}
+
 func (c *TagController) Create(ctx *fiber.Ctx) error {
 	request := new(model.TagCreateRequest)
 	if err := ctx.BodyParser(request); err != nil {
@@ -83,8 +89,8 @@ func (c *TagController) Delete(ctx *fiber.Ctx) error {
 
 func (c *TagController) Get(ctx *fiber.Ctx) error {
 	request := new(model.TagGetRequest)
-	value := ctx.Params("value")
-	request.Value = value
+	name := ctx.Params("name")
+	request.Name = name
 
 	tagResponse, err := c.TagService.Get(ctx.UserContext(), request)
 	if err != nil {

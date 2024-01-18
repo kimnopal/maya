@@ -1,17 +1,17 @@
 package model
 
 type TagResponse struct {
-	ID    uint64 `json:"id"`
-	Value string `json:"value"`
+	ID   uint64 `json:"id"`
+	Name string `json:"name"`
 }
 
 type TagCreateRequest struct {
-	Value string `json:"value" validate:"required,max=100"`
+	Name string `json:"name" validate:"required,max=100"`
 }
 
 type TagUpdateRequest struct {
-	ID    uint64 `json:"id" validate:"required"`
-	Value string `json:"value" validate:"required,max=100"`
+	ID   uint64 `json:"id" validate:"required"`
+	Name string `json:"name" validate:"required,max=100"`
 }
 
 type TagDeleteRequest struct {
@@ -19,5 +19,5 @@ type TagDeleteRequest struct {
 }
 
 type TagGetRequest struct {
-	Value string `json:"id" validate:"required"`
+	Name string `json:"id" validate:"required"`
 }

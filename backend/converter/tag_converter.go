@@ -7,20 +7,20 @@ import (
 
 func TagEntityToResponse(tag *entity.Tag) *model.TagResponse {
 	return &model.TagResponse{
-		ID:    tag.ID,
-		Value: tag.Value,
+		ID:   tag.ID,
+		Name: tag.Name,
 	}
 }
 
 func TagCreateRequestToEntity(createRequest *model.TagCreateRequest) *entity.Tag {
 	return &entity.Tag{
-		Value: createRequest.Value,
+		Name: createRequest.Name,
 	}
 }
 
 func TagUpdateRequestToEntity(tag *entity.Tag, updateRequest *model.TagUpdateRequest) *entity.Tag {
 	tag.ID = updateRequest.ID
-	tag.Value = updateRequest.Value
+	tag.Name = updateRequest.Name
 
 	return tag
 }
@@ -30,8 +30,8 @@ func TagListEntityToResponse(tags *[]*entity.Tag) []*model.TagResponse {
 
 	for _, tag := range *tags {
 		response := &model.TagResponse{
-			ID:    tag.ID,
-			Value: tag.Value,
+			ID:   tag.ID,
+			Name: tag.Name,
 		}
 		responses = append(responses, response)
 	}

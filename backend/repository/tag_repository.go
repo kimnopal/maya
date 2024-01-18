@@ -9,6 +9,10 @@ type TagRepository struct {
 	Repository[entity.Tag]
 }
 
-func (r *TagRepository) FindByValue(DB *gorm.DB, tag *entity.Tag, value string) error {
-	return DB.Where("value = ?", value).Take(tag).Error
+func NewTagRepository() *TagRepository {
+	return &TagRepository{}
+}
+
+func (r *TagRepository) FindByName(DB *gorm.DB, tag *entity.Tag, name string) error {
+	return DB.Where("name = ?", name).Take(tag).Error
 }

@@ -18,6 +18,14 @@ type TagService struct {
 	TagRepository *repository.TagRepository
 }
 
+func NewTagService(DB *gorm.DB, Validate *validator.Validate, TagRepository *repository.TagRepository) *TagService {
+	return &TagService{
+		DB:            DB,
+		Validate:      Validate,
+		TagRepository: TagRepository,
+	}
+}
+
 func (s *TagService) Create(ctx context.Context, request *model.TagCreateRequest) (*model.TagResponse, error) {
 	tx := s.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
@@ -96,7 +104,7 @@ func (s *TagService) Get(ctx context.Context, request *model.TagGetRequest) (*mo
 	}
 
 	tag := new(entity.Tag)
-	if err := s.TagRepository.FindByValue(tx, tag, request.Value); err != nil {
+	if err := s.TagRepository.FindByName(tx, tag, request.Name); err != nil {
 		return nil, fiber.ErrNotFound
 	}
 
