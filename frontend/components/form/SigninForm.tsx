@@ -1,48 +1,63 @@
 "use client";
-import { signIn } from "next-auth/react";
-import React, { useRef } from "react";
-import TextBox from "./TextBox";
 
-const SigninForm = async () => {
-  const userEmail = useRef("");
-  const pass = useRef("");
+import * as z from "zod";
+import React from "react";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { LoginSchema } from "@/schemas";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
-  const onSubmit = async () => {
-    const result = await signIn("credentials", {
-      email: userEmail.current,
-      password: pass.current,
-      redirect: true,
-      callbackUrl: "/",
-    });
+const SigninForm = () => {
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    console.log(values);
   };
 
   return (
-    <>
-      <TextBox
-        labelText="Email Address"
-        type="email"
-        onChange={(e) => {
-          userEmail.current = e.target.value;
-        }}
-        placeholder="youlooknicetoday@example.com"
-        id="email"
-      />
-      <TextBox
-        labelText="Password"
-        type="password"
-        onChange={(e) => {
-          pass.current = e.target.value;
-        }}
-        placeholder="Ssst!"
-        id="password"
-      />
-      <button
-        onClick={onSubmit}
-        className="font-bold text-white bg-primary py-3 rounded-xl"
-      >
-        Sign in
-      </button>
-    </>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base">Email Address</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="youlooknicetoday@example.com"
+                  type="email"
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base">Password</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Ssst!" type="password" />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <Button type="submit" className="w-full font-bold rounded-xl">
+          Sign in
+        </Button>
+      </form>
+    </Form>
   );
 };
 
