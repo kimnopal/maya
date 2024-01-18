@@ -9,6 +9,10 @@ type PostCategoryRepository struct {
 	Repository[entity.PostCategory]
 }
 
+func NewPostCategoryRepository() *PostCategoryRepository {
+	return &PostCategoryRepository{}
+}
+
 func (r *PostCategoryRepository) FindByName(DB *gorm.DB, postCategory *entity.PostCategory, name string) error {
 	return DB.Where("name = ?", name).Take(postCategory).Error
 }

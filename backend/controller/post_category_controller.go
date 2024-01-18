@@ -11,6 +11,12 @@ type PostCategoryController struct {
 	PostCategoryService *service.PostCategoryService
 }
 
+func NewPostCategoryController(PostCategoryService *service.PostCategoryService) *PostCategoryController {
+	return &PostCategoryController{
+		PostCategoryService: PostCategoryService,
+	}
+}
+
 func (c *PostCategoryController) Create(ctx *fiber.Ctx) error {
 	request := new(model.PostCategoryCreateRequest)
 	if err := ctx.BodyParser(request); err != nil {
@@ -43,6 +49,16 @@ func (c *PostCategoryController) Update(ctx *fiber.Ctx) error {
 		))
 	}
 
+	id, err := ctx.ParamsInt("id")
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(converter.ToWebResponse(
+			fiber.StatusBadRequest,
+			fiber.ErrBadRequest.Message,
+			nil,
+		))
+	}
+	request.ID = uint64(id)
+
 	postCategoryResponse, err := c.PostCategoryService.Update(ctx.UserContext(), request)
 	if err != nil {
 		return ctx.Status(err.(*fiber.Error).Code).JSON(converter.ToWebResponse(
@@ -57,15 +73,17 @@ func (c *PostCategoryController) Update(ctx *fiber.Ctx) error {
 
 func (c *PostCategoryController) Delete(ctx *fiber.Ctx) error {
 	request := new(model.PostCategoryDeleteRequest)
-	if err := ctx.BodyParser(request); err != nil {
+	id, err := ctx.ParamsInt("id")
+	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(converter.ToWebResponse(
 			fiber.StatusBadRequest,
 			fiber.ErrBadRequest.Message,
 			nil,
 		))
 	}
+	request.ID = uint64(id)
 
-	err := c.PostCategoryService.Delete(ctx.UserContext(), request)
+	err = c.PostCategoryService.Delete(ctx.UserContext(), request)
 	if err != nil {
 		return ctx.Status(err.(*fiber.Error).Code).JSON(converter.ToWebResponse(
 			err.(*fiber.Error).Code,
@@ -79,13 +97,6 @@ func (c *PostCategoryController) Delete(ctx *fiber.Ctx) error {
 
 func (c *PostCategoryController) Get(ctx *fiber.Ctx) error {
 	request := new(model.PostCategoryGetRequest)
-	if err := ctx.BodyParser(request); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(converter.ToWebResponse(
-			fiber.StatusBadRequest,
-			fiber.ErrBadRequest.Message,
-			nil,
-		))
-	}
 	request.Name = ctx.Params("name")
 
 	postCategoryResponse, err := c.PostCategoryService.Get(ctx.UserContext(), request)

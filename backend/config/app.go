@@ -23,18 +23,21 @@ func Bootstrap(config *BootstrapConfig) {
 	roleRepository := repository.NewRoleRepository()
 	userRepository := repository.NewUserRepository()
 	tagRepository := repository.NewTagRepository()
+	postCategoryRepository := repository.NewPostCategoryRepository()
 
 	facultyService := service.NewFacultyService(config.DB, config.Validate, facultyRepository)
 	majorService := service.NewMajorService(config.DB, config.Validate, facultyRepository, majorRepository)
 	roleService := service.NewRoleService(config.DB, config.Validate, roleRepository)
 	userService := service.NewUserService(config.DB, config.Validate, userRepository)
 	tagService := service.NewTagService(config.DB, config.Validate, tagRepository)
+	postCategoryService := service.NewPostCategoryService(config.DB, config.Validate, postCategoryRepository)
 
 	facultyController := controller.NewFacultyController(facultyService)
 	majorController := controller.NewMajorController(majorService)
 	roleController := controller.NewRoleController(roleService)
 	userController := controller.NewUserController(userService)
 	tagController := controller.NewTagController(tagService)
+	postCategoryController := controller.NewPostCategoryController(postCategoryService)
 
 	api := config.App.Group("/api")
 	route.SetupUserRoute(api, userController)
@@ -44,4 +47,5 @@ func Bootstrap(config *BootstrapConfig) {
 	route.SetupMajorRoute(api, majorController)
 	route.SetupRoleRoute(api, roleController)
 	route.SetupTagRoute(api, tagController)
+	route.SetupPostCategoryRoute(api, postCategoryController)
 }
