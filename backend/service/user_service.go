@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"errors"
-	"fmt"
+	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -40,7 +40,6 @@ func (s *UserService) Create(ctx context.Context, request *model.UserRegisterReq
 
 	user := new(entity.User)
 	if err := s.UserRespository.FindByUsername(tx, user, request.Username); err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
-		fmt.Println("error find by username")
 		return nil, fiber.ErrNotFound
 	}
 
@@ -50,7 +49,6 @@ func (s *UserService) Create(ctx context.Context, request *model.UserRegisterReq
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(request.Password), bcrypt.DefaultCost)
 	if err != nil {
-		fmt.Println("error hashing password")
 		return nil, fiber.ErrInternalServerError
 	}
 
@@ -59,7 +57,6 @@ func (s *UserService) Create(ctx context.Context, request *model.UserRegisterReq
 	user.RoleID = 1
 
 	if err := s.UserRespository.Create(tx, user); err != nil {
-		fmt.Println("error create user")
 		return nil, fiber.ErrInternalServerError
 	}
 
@@ -87,12 +84,13 @@ func (s *UserService) Login(ctx context.Context, request *model.UserLoginRequest
 		return nil, fiber.ErrUnauthorized
 	}
 
-	claims := new(model.JWT)
+	claims := new(model.UserClaims)
+	claims.ExpiresAt = jwt.NewNumericDate(time.Now().Add(time.Hour * 48))
+
 	claims.UserResponse = *converter.UserEntityToResponse(user)
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	finalToken, err := token.SignedString([]byte("rahasia"))
 	if err != nil {
-		fmt.Println("error signing")
 		return nil, fiber.ErrInternalServerError
 	}
 

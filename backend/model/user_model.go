@@ -1,7 +1,5 @@
 package model
 
-import "github.com/golang-jwt/jwt/v5"
-
 type UserResponse struct {
 	ID       uint64 `json:"id"`
 	Username string `json:"username"`
@@ -19,11 +17,6 @@ type UserRegisterRequest struct {
 type UserLoginRequest struct {
 	Username string `json:"username" validate:"required,max=100"`
 	Password string `json:"password" validate:"required,max=100"`
-}
-
-type JWT struct {
-	jwt.RegisteredClaims
-	UserResponse
 }
 
 type UserLoginResponse struct {

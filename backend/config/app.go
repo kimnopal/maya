@@ -4,6 +4,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/kimnopal/maya/controller"
+	"github.com/kimnopal/maya/middleware"
 	"github.com/kimnopal/maya/repository"
 	"github.com/kimnopal/maya/route"
 	"github.com/kimnopal/maya/service"
@@ -33,8 +34,10 @@ func Bootstrap(config *BootstrapConfig) {
 	userController := controller.NewUserController(userService)
 
 	api := config.App.Group("/api")
+	route.SetupUserRoute(api, userController)
+
+	api.Use(middleware.AuthMiddleware)
 	route.SetupFacultyRoute(api, facultyController)
 	route.SetupMajorRoute(api, majorController)
 	route.SetupRoleRoute(api, roleController)
-	route.SetupUserRoute(api, userController)
 }

@@ -9,12 +9,12 @@ type FacultyResponse struct {
 }
 
 type FacultyCreateRequest struct {
-	Name string `json:"name" validate:"required,max:100"`
+	Name string `json:"name" validate:"required,max=100"`
 }
 
 type FacultyUpdateRequest struct {
 	ID   uint64 `json:"id" validate:"required"`
-	Name string `json:"name" validate:"required,max:100"`
+	Name string `json:"name" validate:"required,max=100"`
 }
 
 type FacultyDeleteRequest struct {
