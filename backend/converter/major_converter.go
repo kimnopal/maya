@@ -7,7 +7,7 @@ import (
 
 func MajorEntityToResponse(entity *entity.Major) *model.MajorResponse {
 	var facultyResponse *model.FacultyResponse
-	if entity.Faculty.ID != 0 {
+	if entity.Faculty != nil {
 		facultyResponse = FacultyEntityToResponse(entity.Faculty)
 	}
 
