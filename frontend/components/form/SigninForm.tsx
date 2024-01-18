@@ -23,30 +23,41 @@ const SigninForm = () => {
   };
 
   return (
-    <>
-      <TextBox
-        labelText="Email Address"
-        type="email"
-        onChange={(e) => {
-          userEmail.current = e.target.value;
-        }}
-        placeholder="youlooknicetoday@example.com"
-      />
-      <TextBox
-        labelText="Password"
-        type="password"
-        onChange={(e) => {
-          pass.current = e.target.value;
-        }}
-        placeholder="Ssst!"
-      />
-      <button
-        onClick={onSubmit}
-        className="font-bold text-white bg-primary py-3 rounded-xl"
-      >
-        Sign in
-      </button>
-    </>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base">Email Address</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="youlooknicetoday@example.com"
+                  type="email"
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base">Password</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Ssst!" type="password" />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <Button type="submit" className="w-full font-bold rounded-xl">
+          Sign in
+        </Button>
+      </form>
+    </Form>
   );
 };
 
