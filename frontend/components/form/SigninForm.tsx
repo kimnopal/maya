@@ -1,19 +1,25 @@
 "use client";
-import { signIn } from "next-auth/react";
-import React, { useRef } from "react";
-import TextBox from "./TextBox";
 
-const SigninForm = async () => {
-  const userEmail = useRef("");
-  const pass = useRef("");
+import * as z from "zod";
+import React from "react";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { LoginSchema } from "@/schemas";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
-  const onSubmit = async () => {
-    const result = await signIn("credentials", {
-      email: userEmail.current,
-      password: pass.current,
-      redirect: true,
-      callbackUrl: "/",
-    });
+const SigninForm = () => {
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    console.log(values);
   };
 
   return (
@@ -25,7 +31,6 @@ const SigninForm = async () => {
           userEmail.current = e.target.value;
         }}
         placeholder="youlooknicetoday@example.com"
-        id="email"
       />
       <TextBox
         labelText="Password"
@@ -34,7 +39,6 @@ const SigninForm = async () => {
           pass.current = e.target.value;
         }}
         placeholder="Ssst!"
-        id="password"
       />
       <button
         onClick={onSubmit}
