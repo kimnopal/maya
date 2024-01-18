@@ -19,5 +19,5 @@ type TagDeleteRequest struct {
 }
 
 type TagGetRequest struct {
-	Value uint64 `json:"id" validate:"required"`
+	Value string `json:"id" validate:"required"`
 }
