@@ -19,7 +19,6 @@ func PostCategoryCreateRequestToEntity(createRequest *model.PostCategoryCreateRe
 }
 
 func PostCategoryUpdateRequestToEntity(postCategory *entity.PostCategory, updateRequest *model.PostCategoryUpdateRequest) *entity.PostCategory {
-	postCategory.ID = updateRequest.ID
 	postCategory.Name = updateRequest.Name
 
 	return postCategory

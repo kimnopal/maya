@@ -27,7 +27,6 @@ func FacultyCreateRequestToEntity(createRequest *model.FacultyCreateRequest) *en
 }
 
 func FacultyUpdateRequestToEntity(faculty *entity.Faculty, updateRequest *model.FacultyUpdateRequest) *entity.Faculty {
-	faculty.ID = updateRequest.ID
 	faculty.Name = updateRequest.Name
 
 	return faculty

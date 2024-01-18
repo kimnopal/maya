@@ -28,7 +28,6 @@ func MajorCreateRequestToEntity(createRequest *model.MajorCreateRequest) *entity
 }
 
 func MajorUpdateRequestToEntity(major *entity.Major, updateRequest *model.MajorUpdateRequest) *entity.Major {
-	major.ID = updateRequest.ID
 	major.Name = updateRequest.Name
 	major.FacultyID = updateRequest.FacultyID
 

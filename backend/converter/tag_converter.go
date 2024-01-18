@@ -19,7 +19,6 @@ func TagCreateRequestToEntity(createRequest *model.TagCreateRequest) *entity.Tag
 }
 
 func TagUpdateRequestToEntity(tag *entity.Tag, updateRequest *model.TagUpdateRequest) *entity.Tag {
-	tag.ID = updateRequest.ID
 	tag.Name = updateRequest.Name
 
 	return tag
