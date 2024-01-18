@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -62,13 +63,14 @@ func (s *MajorService) Get(ctx context.Context, request *model.MajorGetRequest) 
 	}
 
 	major := new(entity.Major)
-	if err := s.MajorRepository.FindById(tx, major, request.ID); err != nil {
+	if err := s.MajorRepository.FindByIdWithFaculty(tx, major, request.ID); err != nil {
 		return nil, fiber.ErrNotFound
 	}
 
 	if err := tx.Commit().Error; err != nil {
 		return nil, fiber.ErrInternalServerError
 	}
+	fmt.Println(major)
 
 	return converter.MajorEntityToResponse(major), nil
 }

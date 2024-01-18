@@ -6,11 +6,17 @@ import (
 )
 
 func MajorEntityToResponse(entity *entity.Major) *model.MajorResponse {
+	var facultyResponse *model.FacultyResponse
+	if entity.Faculty.ID != 0 {
+		facultyResponse = FacultyEntityToResponse(entity.Faculty)
+	}
+
 	return &model.MajorResponse{
 		ID:        entity.ID,
 		Name:      entity.Name,
 		CreatedAt: entity.CreatedAt,
 		UpdatedAt: entity.UpdatedAt,
+		Faculty:   facultyResponse,
 	}
 }
 
@@ -29,15 +35,15 @@ func MajorUpdateRequestToEntity(major *entity.Major, updateRequest *model.MajorU
 	return major
 }
 
-func MajorListEntityToResponse(entities *[]*entity.Major) []*model.MajorResponse {
+func MajorListEntityToResponse(majors *[]*entity.Major) []*model.MajorResponse {
 	var responses []*model.MajorResponse
 
-	for _, entity := range *entities {
+	for _, major := range *majors {
 		response := &model.MajorResponse{
-			ID:        entity.ID,
-			Name:      entity.Name,
-			CreatedAt: entity.CreatedAt,
-			UpdatedAt: entity.UpdatedAt,
+			ID:        major.ID,
+			Name:      major.Name,
+			CreatedAt: major.CreatedAt,
+			UpdatedAt: major.UpdatedAt,
 		}
 		responses = append(responses, response)
 	}

@@ -106,7 +106,7 @@ func (s *FacultyService) Get(ctx context.Context, request *model.FacultyGetReque
 	}
 
 	faculty := new(entity.Faculty)
-	if err := s.FacultyRepository.FindById(tx, faculty, request.ID); err != nil {
+	if err := s.FacultyRepository.FindByIdWithMajors(tx, faculty, request.ID); err != nil {
 		return nil, fiber.ErrNotFound
 	}
 

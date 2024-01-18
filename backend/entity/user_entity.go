@@ -11,11 +11,11 @@ type User struct {
 	MajorID   *uint64 `gorm:"column:major_id"`
 	RoleID    uint64  `gorm:"column:role_id"`
 
-	Major    Major     `gorm:"foreignKey:major_id;references:id"`
-	Role     Role      `gorm:"foreignKey:role_id;references:id"`
-	Posts    []Post    `gorm:"foreignKey:user_id;references:id"`
-	Appliers []Applier `gorm:"foreignKey:user_id;references:id"`
-	Contacts []Contact `gorm:"foreignKey:user_id;references:id"`
+	Major    *Major     `gorm:"foreignKey:major_id;references:id"`
+	Role     *Role      `gorm:"foreignKey:role_id;references:id"`
+	Posts    []*Post    `gorm:"foreignKey:user_id;references:id"`
+	Appliers []*Applier `gorm:"foreignKey:user_id;references:id"`
+	Contacts []*Contact `gorm:"foreignKey:user_id;references:id"`
 }
 
 func (u *User) TableName() string {

@@ -17,3 +17,7 @@ func NewFacultyRepository() *FacultyRepository {
 func (r *FacultyRepository) FindAllWithMajors(db *gorm.DB, faculties *[]entity.Faculty) error {
 	return db.Preload("Majors").Find(faculties).Error
 }
+
+func (r *FacultyRepository) FindByIdWithMajors(db *gorm.DB, faculty *entity.Faculty, id any) error {
+	return db.Preload("Majors").Where("id = ?", id).Take(faculty).Error
+}

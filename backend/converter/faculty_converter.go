@@ -6,11 +6,17 @@ import (
 )
 
 func FacultyEntityToResponse(faculty *entity.Faculty) *model.FacultyResponse {
+	var majors []*model.MajorResponse
+	if faculty.Majors != nil {
+		majors = MajorListEntityToResponse(&faculty.Majors)
+	}
+
 	return &model.FacultyResponse{
 		ID:        faculty.ID,
 		Name:      faculty.Name,
 		CreatedAt: faculty.CreatedAt,
 		UpdatedAt: faculty.UpdatedAt,
+		Majors:    majors,
 	}
 }
 
