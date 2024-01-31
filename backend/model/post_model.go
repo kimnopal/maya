@@ -28,3 +28,7 @@ type PostUpdateRequest struct {
 type PostGetRequest struct {
 	Code string `json:"code" validate:"required"`
 }
+
+type PostDeleteRequest struct {
+	Code string `json:"code" validate:"required"`
+}

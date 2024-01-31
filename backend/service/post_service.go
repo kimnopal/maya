@@ -98,3 +98,27 @@ func (s *PostService) Update(ctx context.Context, request *model.PostUpdateReque
 
 	return converter.PostEntityToResponse(post), nil
 }
+
+func (s *PostService) Delete(ctx context.Context, request *model.PostDeleteRequest) error {
+	tx := s.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := s.Validate.Struct(request); err != nil {
+		return fiber.ErrBadRequest
+	}
+
+	post := new(entity.Post)
+	if err := s.PostRepository.FindByCode(tx, post, request.Code); err != nil {
+		return fiber.ErrNotFound
+	}
+
+	if err := s.PostRepository.Delete(tx, post); err != nil {
+		return fiber.ErrInternalServerError
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		return fiber.ErrInternalServerError
+	}
+
+	return nil
+}

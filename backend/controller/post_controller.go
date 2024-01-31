@@ -81,3 +81,19 @@ func (c *PostController) Update(ctx *fiber.Ctx) error {
 
 	return ctx.Status(fiber.StatusOK).JSON(converter.ToWebResponse(fiber.StatusOK, "OK", postResponse))
 }
+
+func (c *PostController) Delete(ctx *fiber.Ctx) error {
+	request := new(model.PostDeleteRequest)
+	request.Code = ctx.Params("code")
+
+	err := c.PostService.Delete(ctx.UserContext(), request)
+	if err != nil {
+		return ctx.Status(err.(*fiber.Error).Code).JSON(converter.ToWebResponse(
+			err.(*fiber.Error).Code,
+			err.(*fiber.Error).Message,
+			nil,
+		))
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(converter.ToWebResponse(fiber.StatusOK, "OK", nil))
+}

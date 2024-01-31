@@ -9,4 +9,5 @@ func SetupPostRoute(app fiber.Router, postController *controller.PostController)
 	app.Post("/posts", postController.Create)
 	app.Get("/posts/:code", postController.Get)
 	app.Put("/posts/:code", postController.Update)
+	app.Delete("/posts/:code", postController.Delete)
 }
