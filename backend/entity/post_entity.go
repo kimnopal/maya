@@ -17,5 +17,5 @@ type Post struct {
 }
 
 func (m *Post) TableName() string {
-	return "majors"
+	return "posts"
 }
