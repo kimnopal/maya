@@ -52,3 +52,19 @@ func (s *PostService) Create(ctx context.Context, request *model.PostCreateReque
 
 	return converter.PostEntityToResponse(post), nil
 }
+
+func (s *PostService) Get(ctx context.Context, request *model.PostGetRequest) (*model.PostResponse, error) {
+	tx := s.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	post := new(entity.Post)
+	if err := s.PostRepository.FindByCode(tx, post, request.Code); err != nil {
+		return nil, fiber.ErrNotFound
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.PostEntityToResponse(post), nil
+}

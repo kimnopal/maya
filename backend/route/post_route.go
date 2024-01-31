@@ -7,4 +7,5 @@ import (
 
 func SetupPostRoute(app fiber.Router, postController *controller.PostController) {
 	app.Post("/posts", postController.Create)
+	app.Get("/posts/:code", postController.Get)
 }

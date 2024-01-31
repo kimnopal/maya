@@ -17,3 +17,7 @@ type PostCreateRequest struct {
 	UserID         uint64 `json:"user_id" validate:"required"`
 	PostCategoryID uint64 `json:"post_category_id" validate:"required"`
 }
+
+type PostGetRequest struct {
+	Code string `json:"code" validate:"required"`
+}
