@@ -58,3 +58,26 @@ func (c *PostController) Get(ctx *fiber.Ctx) error {
 
 	return ctx.Status(fiber.StatusOK).JSON(converter.ToWebResponse(fiber.StatusOK, "OK", postResponse))
 }
+
+func (c *PostController) Update(ctx *fiber.Ctx) error {
+	request := new(model.PostUpdateRequest)
+	if err := ctx.BodyParser(request); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(converter.ToWebResponse(
+			fiber.StatusBadRequest,
+			fiber.ErrBadRequest.Message,
+			nil,
+		))
+	}
+	request.Code = ctx.Params("code")
+
+	postResponse, err := c.PostService.Update(ctx.UserContext(), request)
+	if err != nil {
+		return ctx.Status(err.(*fiber.Error).Code).JSON(converter.ToWebResponse(
+			err.(*fiber.Error).Code,
+			err.(*fiber.Error).Message,
+			nil,
+		))
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(converter.ToWebResponse(fiber.StatusOK, "OK", postResponse))
+}

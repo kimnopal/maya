@@ -25,3 +25,11 @@ func PostCreateRequestToEntity(createRequest *model.PostCreateRequest) *entity.P
 		PostCategoryID: createRequest.PostCategoryID,
 	}
 }
+
+func PostUpdateRequestToEntity(post *entity.Post, updateRequest *model.PostUpdateRequest) *entity.Post {
+	post.Title = updateRequest.Title
+	post.Description = updateRequest.Description
+	post.PostCategoryID = updateRequest.PostCategoryID
+
+	return post
+}

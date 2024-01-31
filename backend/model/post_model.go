@@ -18,6 +18,13 @@ type PostCreateRequest struct {
 	PostCategoryID uint64 `json:"post_category_id" validate:"required"`
 }
 
+type PostUpdateRequest struct {
+	Title          string `json:"title" validate:"required,max=255"`
+	Code           string `json:"code" validate:"required,max=100"`
+	Description    string `json:"description" validate:"required"`
+	PostCategoryID uint64 `json:"post_category_id" validate:"required"`
+}
+
 type PostGetRequest struct {
 	Code string `json:"code" validate:"required"`
 }

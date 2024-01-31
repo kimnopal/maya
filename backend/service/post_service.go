@@ -68,3 +68,33 @@ func (s *PostService) Get(ctx context.Context, request *model.PostGetRequest) (*
 
 	return converter.PostEntityToResponse(post), nil
 }
+
+func (s *PostService) Update(ctx context.Context, request *model.PostUpdateRequest) (*model.PostResponse, error) {
+	tx := s.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
+
+	if err := s.Validate.Struct(request); err != nil {
+		return nil, fiber.ErrBadRequest
+	}
+
+	postCategory := new(entity.PostCategory)
+	if err := s.PostCategoryRepository.FindById(tx, postCategory, request.PostCategoryID); err != nil {
+		return nil, fiber.ErrNotFound
+	}
+
+	post := new(entity.Post)
+	if err := s.PostRepository.FindByCode(tx, post, request.Code); err != nil {
+		return nil, fiber.ErrNotFound
+	}
+
+	post = converter.PostUpdateRequestToEntity(post, request)
+	if err := s.PostRepository.Update(tx, post); err != nil {
+		return nil, fiber.ErrInternalServerError
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		return nil, fiber.ErrInternalServerError
+	}
+
+	return converter.PostEntityToResponse(post), nil
+}
