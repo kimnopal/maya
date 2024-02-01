@@ -1,6 +1,9 @@
 package controller
 
 import (
+	"fmt"
+	"time"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/kimnopal/maya/converter"
 	"github.com/kimnopal/maya/model"
@@ -50,6 +53,8 @@ func (c *UserController) Login(ctx *fiber.Ctx) error {
 		))
 	}
 
+	fmt.Println(request)
+
 	userResponse, err := c.UserService.Login(ctx.UserContext(), request)
 	if err != nil {
 		return ctx.Status(err.(*fiber.Error).Code).JSON(converter.ToWebResponse(
@@ -58,6 +63,13 @@ func (c *UserController) Login(ctx *fiber.Ctx) error {
 			nil,
 		))
 	}
+
+	ctx.Cookie(&fiber.Cookie{
+		Name:    "token",
+		Value:   userResponse.Token,
+		Expires: time.Now().Add(time.Hour * 48),
+		// SameSite: "none",
+	})
 
 	return ctx.Status(fiber.StatusOK).JSON(converter.ToWebResponse(fiber.StatusOK, "OK", userResponse))
 }

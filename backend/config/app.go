@@ -3,6 +3,7 @@ package config
 import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/kimnopal/maya/controller"
 	"github.com/kimnopal/maya/middleware"
 	"github.com/kimnopal/maya/repository"
@@ -43,6 +44,10 @@ func Bootstrap(config *BootstrapConfig) {
 	postController := controller.NewPostController(postService)
 
 	api := config.App.Group("/api")
+	corsConfig := cors.ConfigDefault
+	corsConfig.AllowCredentials = true
+	corsConfig.AllowOrigins = "http://localhost:3000"
+	api.Use(cors.New(corsConfig))
 	route.SetupUserRoute(api, userController)
 
 	api.Use(middleware.AuthMiddleware)

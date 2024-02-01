@@ -1,12 +1,14 @@
 "use client";
-import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const SigninButton = () => {
+  const router = useRouter();
+
   return (
     <button
       className="text-center font-bold py-3 rounded-xl bg-primary"
-      onClick={() => signIn()}
+      onClick={() => router.push("/signin")}
     >
       Sign in
     </button>

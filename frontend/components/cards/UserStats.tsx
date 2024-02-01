@@ -1,20 +1,18 @@
 "use client";
 
 import { userType } from "@/app/types/type";
-import { useSession } from "next-auth/react";
 import React from "react";
 import SigninButton from "../button/SigninButton";
 import Link from "next/link";
 
 const UserStats = () => {
-  const { data: session } = useSession();
   return (
     <div className="bg-secondary-foreground text-white flex flex-col gap-2 px-3 pt-6 pb-3 rounded-2xl">
       <h1 className="font-bold text-xl">Maya: Mahasiswa Berkarya</h1>
-      {session?.user ? (
+      {false ? (
         <>
           <p className="">
-            Hi, {session.user.name} <br />
+            Hi, {"Test"} <br />
             Have you found your Dream Team?
           </p>
           <div className="grid grid-flow-col grid-cols-2 gap-2 px-4 py-2 bg-white rounded-lg">
