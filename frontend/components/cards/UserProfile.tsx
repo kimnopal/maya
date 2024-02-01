@@ -1,14 +1,12 @@
-"use client";
+// "use client";
 
+import { getAuth } from "@/lib/cookie";
 import Image from "next/image";
 import React from "react";
 
-const UserProfile = () => {
-  const { data: session } = useSession({
-    required: true,
-  });
-
-  console.log(session);
+const UserProfile = async () => {
+  const authUser = await getAuth();
+  console.log(authUser);
 
   return (
     <div className="flex flex-col gap-2 px-3 py-6 text-white bg-secondary-foreground rounded-2xl">
@@ -21,14 +19,12 @@ const UserProfile = () => {
           className="rounded-full"
         />
       </div>
-      <h1 className="text-xl font-bold text">{session?.user?.name}</h1>
-      <p>{session?.user?.email}</p>
-      <p>{session?.user?.majors.name}</p>
-      <p>{session?.user?.majors.faculty}</p>
+      <h1 className="text-xl font-bold text">{authUser?.name}</h1>
+      <p>{authUser?.email}</p>
+      <p>{authUser?.majors?.name}</p>
+      <p>{authUser?.majors?.faculty}</p>
       <button
-        onClick={() => {
-          signOut();
-        }}
+        // onClick={() => {}}
         className="font-bold py-2 bg-secondary rounded-xl"
       >
         Sign out
