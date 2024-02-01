@@ -1,15 +1,15 @@
-"use client";
-
-import { userType } from "@/app/types/type";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SigninButton from "../button/SigninButton";
 import Link from "next/link";
+import { getAuth } from "@/lib/cookie";
 
-const UserStats = () => {
+const UserStats = async () => {
+  const userAuth = await getAuth();
+
   return (
     <div className="bg-secondary-foreground text-white flex flex-col gap-2 px-3 pt-6 pb-3 rounded-2xl">
       <h1 className="font-bold text-xl">Maya: Mahasiswa Berkarya</h1>
-      {false ? (
+      {userAuth ? (
         <>
           <p className="">
             Hi, {"Test"} <br />

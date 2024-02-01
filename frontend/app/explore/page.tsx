@@ -3,6 +3,7 @@ import BackTemplate from "@/components/template/BackTemplate";
 import React from "react";
 import { getAllPosts } from "../action/action";
 import ItemList from "@/components/cards/ItemList";
+import { getAuth } from "@/lib/cookie";
 
 const ExplorePage = ({
   searchParams,
