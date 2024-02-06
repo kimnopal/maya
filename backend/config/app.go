@@ -26,6 +26,7 @@ func Bootstrap(config *BootstrapConfig) {
 	tagRepository := repository.NewTagRepository()
 	postCategoryRepository := repository.NewPostCategoryRepository()
 	postRepository := repository.NewPostRepository()
+	contactTypeRepository := repository.NewContactTypeRepository()
 
 	facultyService := service.NewFacultyService(config.DB, config.Validate, facultyRepository)
 	majorService := service.NewMajorService(config.DB, config.Validate, facultyRepository, majorRepository)
@@ -34,6 +35,7 @@ func Bootstrap(config *BootstrapConfig) {
 	tagService := service.NewTagService(config.DB, config.Validate, tagRepository)
 	postCategoryService := service.NewPostCategoryService(config.DB, config.Validate, postCategoryRepository)
 	postService := service.NewPostService(config.DB, config.Validate, postRepository, postCategoryRepository)
+	contactTypeService := service.NewContactTypeService(config.DB, config.Validate, contactTypeRepository)
 
 	facultyController := controller.NewFacultyController(facultyService)
 	majorController := controller.NewMajorController(majorService)
@@ -42,6 +44,7 @@ func Bootstrap(config *BootstrapConfig) {
 	tagController := controller.NewTagController(tagService)
 	postCategoryController := controller.NewPostCategoryController(postCategoryService)
 	postController := controller.NewPostController(postService)
+	contactTypeController := controller.NewContactTypeController(contactTypeService)
 
 	api := config.App.Group("/api")
 	corsConfig := cors.ConfigDefault
@@ -57,4 +60,5 @@ func Bootstrap(config *BootstrapConfig) {
 	route.SetupTagRoute(api, tagController)
 	route.SetupPostCategoryRoute(api, postCategoryController)
 	route.SetupPostRoute(api, postController)
+	route.SetupContactTypeRoute(api, contactTypeController)
 }
